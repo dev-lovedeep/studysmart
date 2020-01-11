@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style-upload.css' %}">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="title">sell item</h1>
+
+
+        <form action="{% url 'buysell' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="itemname">product name:</label><br>
+            <input type="text" name="itemname" id="" class="full" required> <br>
+            <div class="flex">
+                <div class="price half">
+                    <label for="price">price:</label><br>
+                    <input type="number" name="price" id="" min="0" class="full" required><br>
+                </div>
+                <div class="image half">
+                    <label for="myfile">upload image:</label><br>
+                    <input type="file" name="myfile" class="full" required><br>
+                </div>
+            </div>
+            <label for="sellername">sellername:</label><br>
+            <input type="text" name="sellername" id="full" class="full" required><br>
+            <label for="contact">contact:</label><br>
+            <input type="number" name="contact" id="" class="full" required><br>
+            <button type="submit"
+                onclick="alert('your product is succesfully uploaded!\nyour product will be automatically removed after a period\nto keep your product on website contact us')">Upload</button>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

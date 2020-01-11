@@ -1,0 +1,20 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+{% block page %}
+<link rel="stylesheet" href="{% static 'css/style-book.css' %}">
+<div class="container">
+    <div class="flex">
+        <p class="heading">{{object.0.subject}}</p>
+        <!-- <a href="#" class="upload-btn btn" download>upload</a> -->
+    </div>
+    {% for instance in object %}
+    <div class="item flex">
+        <p class="item-name">{{instance.name}}</p>
+        <a href="/static/pdf/{{instance.url}}" class="download-btn btn" download><i class="fa fa-download"
+                aria-hidden="true">download</i>
+        </a>
+    </div>
+    {% endfor %}
+
+</div>
+{%endblock %}

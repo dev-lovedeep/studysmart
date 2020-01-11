@@ -1,0 +1,88 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+{% block page %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<div class=" container">
+    <div class="card">
+        <p class="heading heading-lg">notice</p>
+        <div class="card-content">
+            <table>
+
+                {% for instance in notice %}
+                <tr>
+                    <td><a href="{% static 'pdf/{instance.src}'%}">{{instance.name}}</a></td>
+                    <td>{{instance.date}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="container container-flex">
+    <div class="card flex-card">
+        <p class="heading">activity</p>
+        <div class="card-content">
+            <table>
+
+                {% for instance in activity %}
+                <tr>
+                    <td><a href="{% static 'pdf/{instance.src}'%}">{{instance.name}}</a></td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="card flex-card">
+        <p class="heading">resources</p>
+        <div class="card-content">
+            <a href="{% url 'books' %}" class="resource-link">books and notes</a>
+            <a href="{% url 'paper' %}" class="resource-link">previous year papers</a>
+            <a href="{% url 'buysell' %}" class="resource-link">buy and sell</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <p class="heading">recently added</p>
+        <div class="card-content horizontal">
+            <link rel="stylesheet" href="{% static 'css/style-product.css' %}">
+            {% for instance in products reversed %}
+            {% include 'templates/item.html' %}
+            {% endfor %}
+            <a href="{% url 'buysell' %}">
+                <div class="product view-more">
+                    <p>view <br> more</p>
+                </div>
+            </a>
+
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="card">
+        <p class="heading">tell us</p>
+        <div class="card-content">
+            <p class="form-text">
+                feeling something missing?
+            </p>
+            <p class="form-subtext">
+                let us know
+            </p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="text" name="userinput" id="userinput" required>
+                <button type="submit">send</button>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

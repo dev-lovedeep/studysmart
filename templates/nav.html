@@ -1,0 +1,29 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style-nav.css' %}">
+<nav>
+    <span class="ham " onclick="openNav()">
+        <svg width="35" height="35" viewBox="0 0 24 24" focusable="false" class=" NMm5M">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z">
+
+            </path>
+        </svg>
+    </span>
+
+
+
+    <p class="logo center-hv">study <br> smart</p>
+
+</nav>
+<div class="navbar" id="nav">
+    <a href="{%url 'home' %}" class="nav-link">home</a>
+    <a href="{%url 'books' %}" class="nav-link">books and notes</a>
+    <a href="{%url 'buysell' %}" class="nav-link">buysell</a>
+    <a href="{% url 'paper' %}" class="nav-link">previous year paper</a>
+    <a href="#" class="nav-link">contact us</a>
+</div>
+<script>
+    function openNav() {
+
+        document.getElementById("nav").classList.toggle("openclose")
+    }
+</script>

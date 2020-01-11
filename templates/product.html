@@ -1,0 +1,20 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+{% block page %}
+
+<div class="container white">
+    <div class="flex">
+        <p class="heading">buy and sell</p>
+        <a href="{%url 'upload' %}" class="sell-btn btn">sell</a>
+    </div>
+    <div class="marketplace">
+        <link rel="stylesheet" href="{% static 'css/style-product.css' %}">
+        {% for instance in products reversed %}
+        {% include 'templates/item.html' %}
+        {% endfor %}
+
+    </div>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+{% block page %}
+<link rel="stylesheet" href="{% static 'css/style-subject.css' %}">
+<div class="container">
+    <div class="flex">
+        <p class="heading">{{pagename}}</p>
+    </div>
+    <div class="subject-container flex">
+        {% for instance in objects %}
+        <a href="{{pageurl}}/{{instance.name}}" class="subject">{{instance.name}}</a>
+        {% endfor %}
+    </div>
+</div>
+{%endblock %}
