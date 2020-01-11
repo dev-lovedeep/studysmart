@@ -49,12 +49,7 @@ body {
     padding: 3em;
     background-color: bisque;
     margin: 0.5em;
-    background: #ff9966;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #ff5e62, #ff9966);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #ff5e62, #ff9966);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-image: linear-gradient(109.6deg, rgba(245, 95, 152, 1) 11.2%, rgba(254, 148, 136, 1) 100.2%);
     width: 30%;
     text-align: center;
 

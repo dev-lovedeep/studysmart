@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     text-transform: capitalize;
-    font-family: 'Montserrat', sans-serif;
+
 }
 
 a {
@@ -54,7 +54,7 @@ body {
 
 .container {
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
     padding: 2em;
     margin: 0 auto;
 }
@@ -71,7 +71,7 @@ body {
 
 
 .heading {
-
+    font-family: 'pridi', sans-serif !important;
     border-left: 8px solid var(--secondary-color);
     font-size: 2rem;
     line-height: 0.9;
@@ -91,7 +91,7 @@ body {
 
 tr {
     font-size: 1rem;
-    height: 15vh;
+    height: 10vh;
 }
 
 
@@ -120,10 +120,18 @@ tr {
 .form-text,
 .form-subtext,
 form {
-    display: block;
+
     text-align: center;
     line-height: 1.5;
     margin-bottom: 0.3em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .form-text {
@@ -136,14 +144,17 @@ form {
 
 }
 
+
 #userinput,
 button[type="submit"] {
     padding: 0.5em;
     font-size: 1.2rem;
+    margin: 0.5em;
 }
 
 #userinput {
-    width: 40%;
+    width: 80%;
+    text-transform: none !important;
 }
 
 button[type="submit"] {
@@ -167,5 +178,13 @@ button[type="submit"] {
 
     .container-flex {
         flex-direction: row;
+    }
+
+    form {
+        flex-direction: row;
+    }
+
+    #userinput {
+        width: 40%;
     }
 }

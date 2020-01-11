@@ -19,7 +19,7 @@ body {
 .container {
 
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 2em;
 }
@@ -63,7 +63,7 @@ body {
     text-decoration: none;
     color: black;
     position: relative;
-    height: 50vh;
+    height: 40vh;
     margin-bottom: 2em;
 }
 

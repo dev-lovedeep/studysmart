@@ -59,7 +59,7 @@ def download_view(request, name):
 
     subject_name = subject_names.objects.get(name=name)
 
-    object_list = do.objects.filter(
+    object_list = download.objects.filter(
         subject=subject_name, category=download_type)
 
     context = {

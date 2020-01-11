@@ -61,4 +61,11 @@ button {
     .half {
         width: 100%;
     }
+
+    .container {
+        top: 0;
+        left: 0;
+        transform: translate(0);
+        height: 100% !important;
+    }
 }
