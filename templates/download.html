@@ -10,7 +10,7 @@
     {% for instance in object %}
     <div class="item flex">
         <p class="item-name">{{instance.name}}</p>
-        <a href="/static/pdf/{{instance.url}}" class="download-btn btn" download><i class="fa fa-download"
+        <a href="{{instance.url}}" class="download-btn btn" download><i class="fa fa-download"
                 aria-hidden="true">download</i>
         </a>
     </div>
