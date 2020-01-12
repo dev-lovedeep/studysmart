@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -28,7 +29,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     imagesrc = models.URLField()
     sellername = models.CharField(max_length=20)
-    contact = models.IntegerField()
+    contact = models.BigIntegerField()
 
 
 class subject_names(models.Model):
