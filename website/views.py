@@ -1,11 +1,17 @@
+import glob
+import os
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+# drive
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+
 
 # Create your views here.
 
-
+# view for home page
 def homeview(request):
 
     if request.method == "POST":
@@ -25,8 +31,19 @@ def homeview(request):
         }
         return render(request, "templates/index.html", context)
 
+# display all product to sell
+
 
 def productview(request):
+    context = {
+        "products": Product.objects.all()
+    }
+    return render(request, 'templates/product.html', context)
+
+# manage upload product
+
+
+def simple_upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -41,14 +58,9 @@ def productview(request):
         )
         return redirect('buysell')
     else:
-        context = {
-            "products": Product.objects.all()
-        }
-        return render(request, 'templates/product.html', context)
+        return render(request, "templates/upload.html", {})
 
-
-def simple_upload(request):
-    return render(request, "templates/upload.html", {})
+# supply item to set on both paper and books page
 
 
 def download_view(request, name):
@@ -68,6 +80,8 @@ def download_view(request, name):
 
     return render(request, "templates/download.html", context)
 
+# manage the list of subject and next page to direct
+
 
 def subject_view(request):
     name = ""
@@ -82,3 +96,45 @@ def subject_view(request):
         "objects": subject_names.objects.all()
     }
     return render(request, "templates/subject.html", context)
+
+# contact page view
+
+
+def contact_view(request):
+    return render(request, 'templates/contact.html', {})
+
+# set all the links from google drive
+
+
+def setcontent_view(request):
+    gauth = GoogleAuth()
+    drive = GoogleDrive(gauth)
+    # this object will allow to access subject drive id of each subjectt
+    subject_list = subject_names.objects.all()
+    # deleting all previous item to prevent override
+    download.objects.all().delete()
+    # started action on each subject
+    for subject in subject_list:
+        # this will fetch the folders in subject folder
+        childfolder = drive.ListFile(
+            {"q": "'{}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false".format(subject.driveid)}).GetList()
+
+        # to create books objects
+        bookid = childfolder[1].get('id')
+        # fetch all items from books folder
+        book_list = drive.ListFile(
+            {'q': "'{}' in parents".format(bookid)}).GetList()
+
+        for book in book_list:
+            download.objects.create(
+                name=book['title'], url=book['alternateLink'], subject=subject_names.objects.get(name=subject))
+
+        # to create paper objects
+        paperid = childfolder[0].get('id')
+        # fetch all the items from paper folder
+        paper_list = drive.ListFile(
+            {'q': "'{}' in parents".format(paperid)}).GetList()
+        for paper in paper_list:
+            download.objects.create(
+                name=paper['title'], url=paper['alternateLink'], subject=subject_names.objects.get(name=subject), category='paper')
+    return redirect('home')

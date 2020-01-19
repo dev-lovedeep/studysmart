@@ -15,17 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from website.views import homeview, download_view, productview, simple_upload, subject_view
+from website.views import homeview, download_view, productview, simple_upload, subject_view, contact_view, setcontent_view
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+import django.views.defaults
+
+
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('', homeview, name="home"),
+    path('set', setcontent_view, name="content"),
     path('buy', productview, name="buysell"),
     path('upload', simple_upload, name="upload"),
     path('books', subject_view, name="books"),
     path('paper', subject_view, name="paper"),
+    path('contact', contact_view, name="contact"),
     path('books/<str:name>/', download_view, name="books"),
     path('paper/<str:name>/', download_view, name="books"),
 

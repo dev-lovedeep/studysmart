@@ -7,12 +7,18 @@ from django.db import models
 class Notice(models.Model):
     name = models.CharField(max_length=80)
     src = models.URLField()
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Activity(models.Model):
     name = models.CharField(max_length=60)
     src = models.URLField()
+
+    def __str__(self):
+        return self.name
 
 # model to store user input from "tell us" fiels of home page
 
@@ -31,9 +37,13 @@ class Product(models.Model):
     sellername = models.CharField(max_length=20)
     contact = models.BigIntegerField()
 
+    def __str__(self):
+        return self.itemname
+
 
 class subject_names(models.Model):
     name = models.CharField(max_length=80)
+    driveid = models.TextField()
 
     def __str__(self):
         return self.name

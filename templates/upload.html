@@ -7,7 +7,7 @@
     <h1 class="title">sell item</h1>
 
 
-    <form action="{% url 'buysell' %}" method="post" enctype="multipart/form-data">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="itemname">product name:</label><br>
         <input type="text" name="itemname" id="" class="full" required> <br>
@@ -24,7 +24,7 @@
         <label for="sellername">sellername:</label><br>
         <input type="text" name="sellername" id="full" class="full" required><br>
         <label for="contact">contact:</label><br>
-        <input type="number" name="contact" id="" class="full" required><br>
+        <input pattern="[1-9]{1}[0-9]{9}" type="number" name='contact' />
         <button type="submit" onclick="submitForm()">Upload</button>
     </form>
 </div>
