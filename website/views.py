@@ -101,7 +101,7 @@ def subject_view(request):
 
 
 def contact_view(request):
-    return render(request, 'templates/contact.html', {})
+    return render(request, 'templates/Contact.html', {})
 
 # set all the links from google drive
 
