@@ -1,0 +1,41 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+{% block page %}
+
+<div class="container white">
+    <div class="flex">
+        <p class="heading">buy and sell</p>
+        <a href="{%url 'buysell' %}" class="sell-btn btn">product page</a>
+    </div>
+    <div class="marketplace">
+        <link rel="stylesheet" href="{% static 'css/style-product.css' %}">
+        {% for instance in products reversed %}
+        <div class="item product">
+            <img src="{{instance.imagesrc}}" alt="product image">
+            <div class="item-details">
+                <p class="item-name">{{instance.itemname}}</p>
+                <p class="item-price">rs {{instance.price}}</p>
+            </div>
+
+            <div class="seller">
+                <div class="seller-container">
+                    <p>contact:</p>
+                    <p class="seller-name">{{instance.sellername}}</p>
+                    <p class="seller-contact">{{instance.contact}}</p>
+                </div>
+            </div>
+
+            <div class="action" style="display: flex;justify-content: space-evenly;">
+                {% if not instance.isapproved %}
+                <a href="{% url 'website:approve' instance.id %}" class="btn">approve</a>
+                {% endif %}
+                <a href="{% url 'website:remove' instance.id %}" class="btn">delete</a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+</div>
+{% endblock %}

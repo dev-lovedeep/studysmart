@@ -36,6 +36,7 @@ class Product(models.Model):
     imagesrc = models.URLField()
     sellername = models.CharField(max_length=20)
     contact = models.BigIntegerField()
+    isapproved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.itemname

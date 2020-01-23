@@ -31,12 +31,34 @@ def homeview(request):
         }
         return render(request, "templates/index.html", context)
 
+
+# show non approved products
+def product_filter(request):
+    context = {
+        "products": Product.objects.all()
+    }
+    return render(request, 'templates/filter.html', context)
+
+
+def product_delete(request, id):
+    Product.objects.get(id=id).delete()
+    return redirect('website:filter')
+
+
+def product_approve(request, id):
+    item = Product.objects.get(id=id)
+    print(item.isapproved)
+    item.isapproved = "True"
+    item.save()
+    print(item.isapproved)
+    return redirect('website:filter')
+
 # display all product to sell
 
 
 def productview(request):
     context = {
-        "products": Product.objects.all()
+        "products": Product.objects.filter(isapproved=True)
     }
     return render(request, 'templates/product.html', context)
 
