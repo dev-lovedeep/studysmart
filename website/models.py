@@ -37,7 +37,7 @@ class Product(models.Model):
     sellername = models.CharField(max_length=20)
     contact = models.BigIntegerField()
     isapproved = models.BooleanField(default=False)
-
+    uploaded_file = models.FileField()
     def __str__(self):
         return self.itemname
 

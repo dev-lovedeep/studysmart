@@ -4,9 +4,10 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+
 # drive
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+# from pydrive.auth import GoogleAuth
+# from pydrive.drive import GoogleDrive
 
 
 # Create your views here.
@@ -68,16 +69,25 @@ def productview(request):
 def simple_upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        Product.objects.create(
+        # fs = FileSystemStorage()
+        # filename = fs.save(myfile.name, myfile)
+        # uploaded_file_url = fs.url(filename)
+        product = Product(
             itemname=request.POST.get('itemname'),
             price=request.POST.get('price'),
             sellername=request.POST.get('sellername'),
             contact=request.POST.get('contact'),
-            imagesrc=uploaded_file_url
+            uploaded_file=myfile
+            # imagesrc=uploaded_file.url
         )
+        url = str(product.uploaded_file.url)
+        url = url.replace('%20', '_')
+        print("url=", url, "\n\n\n")
+        product.imagesrc = url
+        product.save()
+        print("\n\n\n" + str(product.imagesrc) + "\n\n\n")
+        # product = Product.objects.get(pk=)
+        # product.save()
         return redirect('buysell')
     else:
         return render(request, "templates/upload.html", {})
@@ -128,35 +138,38 @@ def contact_view(request):
 # set all the links from google drive
 
 
-def setcontent_view(request):
-    gauth = GoogleAuth()
-    drive = GoogleDrive(gauth)
-    # this object will allow to access subject drive id of each subjectt
-    subject_list = subject_names.objects.all()
-    # deleting all previous item to prevent override
-    download.objects.all().delete()
-    # started action on each subject
-    for subject in subject_list:
-        # this will fetch the folders in subject folder
-        childfolder = drive.ListFile(
-            {"q": "'{}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false".format(subject.driveid)}).GetList()
+# def setcontent_view(request):
+#     print("starting authentication")
+#     gauth = GoogleAuth()
+#     drive = GoogleDrive(gauth)
+#     # this object will allow to access subject drive id of each subjectt
+#     subject_list = subject_names.objects.all()
+#     # deleting all previous item to prevent override
+#     download.objects.all().delete()
+#     # started action on each subject
+#     for subject in subject_list:
+#         # this will fetch the folders in subject folder
+#         childfolder = drive.ListFile(
+#             {"q": "'{}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false".format(subject.driveid)}).GetList()
 
-        # to create books objects
-        bookid = childfolder[1].get('id')
-        # fetch all items from books folder
-        book_list = drive.ListFile(
-            {'q': "'{}' in parents".format(bookid)}).GetList()
+#         # to create books objects
+#         bookid = childfolder[1].get('id')
+#         # fetch all items from books folder
+#         book_list = drive.ListFile(
+#             {'q': "'{}' in parents".format(bookid)}).GetList()
 
-        for book in book_list:
-            download.objects.create(
-                name=book['title'], url=book['alternateLink'], subject=subject_names.objects.get(name=subject))
+#         for book in book_list:
+#             download.objects.create(
+#                 name=book['title'], url=book['alternateLink'], subject=subject_names.objects.get(name=subject))
 
-        # to create paper objects
-        paperid = childfolder[0].get('id')
-        # fetch all the items from paper folder
-        paper_list = drive.ListFile(
-            {'q': "'{}' in parents".format(paperid)}).GetList()
-        for paper in paper_list:
-            download.objects.create(
-                name=paper['title'], url=paper['alternateLink'], subject=subject_names.objects.get(name=subject), category='paper')
-    return redirect('home')
+#         # to create paper objects
+#         paperid = childfolder[0].get('id')
+#         # fetch all the items from paper folder
+#         paper_list = drive.ListFile(
+#             {'q': "'{}' in parents".format(paperid)}).GetList()
+#         for paper in paper_list:
+#             download.objects.create(
+#                 name=paper['title'], url=paper['alternateLink'], subject=subject_names.objects.get(name=subject), category='paper')
+
+#     print("all links set")
+#     return redirect('home')
