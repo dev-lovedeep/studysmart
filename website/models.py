@@ -38,6 +38,7 @@ class Product(models.Model):
     contact = models.BigIntegerField()
     isapproved = models.BooleanField(default=False)
     uploaded_file = models.FileField()
+
     def __str__(self):
         return self.itemname
 

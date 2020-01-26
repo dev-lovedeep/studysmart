@@ -2,7 +2,7 @@ import glob
 import os
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import *
 
 # drive
@@ -35,11 +35,13 @@ def homeview(request):
 
 # show non approved products
 def product_filter(request):
-    context = {
-        "products": Product.objects.all()
-    }
-    return render(request, 'templates/filter.html', context)
-
+    if request.user.is_superuser:
+        context = {
+            "products": Product.objects.all()
+        }
+        return render(request, 'templates/filter.html', context)
+    else:
+        return HttpResponse("you are not allowed to access this url")
 
 def product_delete(request, id):
     Product.objects.get(id=id).delete()
@@ -47,12 +49,14 @@ def product_delete(request, id):
 
 
 def product_approve(request, id):
+    
     item = Product.objects.get(id=id)
     print(item.isapproved)
     item.isapproved = "True"
     item.save()
     print(item.isapproved)
     return redirect('website:filter')
+
 
 # display all product to sell
 
