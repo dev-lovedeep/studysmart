@@ -43,13 +43,14 @@ def product_filter(request):
     else:
         return HttpResponse("you are not allowed to access this url")
 
+
 def product_delete(request, id):
     Product.objects.get(id=id).delete()
     return redirect('website:filter')
 
 
 def product_approve(request, id):
-    
+
     item = Product.objects.get(id=id)
     print(item.isapproved)
     item.isapproved = "True"
