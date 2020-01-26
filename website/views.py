@@ -80,6 +80,7 @@ def simple_upload(request):
             uploaded_file=myfile
             # imagesrc=uploaded_file.url
         )
+
         url = str(product.uploaded_file.url)
         url = url.replace('%20', '_')
         print("url=", url, "\n\n\n")
