@@ -25,27 +25,13 @@
         <input type="text" name="sellername" id="full" class="full" required><br>
         <label for="contact">contact:</label><br>
         <input pattern="[1-9]{1}[0-9]{9}" type="number" name='contact' />
-        <button type="submit" onclick="trackUploadProgress(this)" class="upload">Upload</button>
+        <button type="submit" onclick="submitForm()" class="upload">Upload</button>
     </form>
 </div>
 <script>
-    var pbar = document.querySelector('.upload'),
-        currentProgress = 0;
-
-    function trackUploadProgress(e) {
-        if (e.lengthComputable) {
-            currentProgress = (e.loaded / e.total) * 100; // Amount uploaded in percent
-            $(pbar).width(currentProgress + '%');
-
-            // if( currentProgress == 100 )
-            console.log(currentProgress);
-        }
-        submitForm()
-    }
-
     function submitForm() {
         alert(
-            'your product is sent for approval !\nyou will be able to see your product once it is apprved'
+            'your product is sent for approval !\nyou will be able to see your product once it is approved'
         )
         document.contact - form.submit();
         document.contact - form.reset();

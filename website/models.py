@@ -33,7 +33,7 @@ class User_request(models.Model):
 class Product(models.Model):
     itemname = models.CharField(max_length=60)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    imagesrc = models.URLField()
+    imagesrc = models.CharField(max_length=120)
     sellername = models.CharField(max_length=20)
     contact = models.BigIntegerField()
     isapproved = models.BooleanField(default=False)
