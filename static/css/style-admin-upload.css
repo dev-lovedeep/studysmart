@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-transform: capitalize;
+    line-height: 1.5;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.container {
+
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #4AD0C7;
+    padding: 2em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.row {
+    display: flex;
+    justify-content: start;
+
+}
+
+.w100 {
+    width: 100%;
+}
+
+.w50 {
+    width: 50%;
+}
+
+select {
+    padding: 0.4em;
+}
+
+.url {
+    margin: 1em 0;
+    color: red;
+}
+
+
+button {
+    background-color: #009E96;
+    display: block;
+    margin: 0 auto;
+    border: 0;
+    padding: 1em;
+    cursor: pointer;
+}

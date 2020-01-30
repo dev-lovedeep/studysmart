@@ -1,5 +1,6 @@
 import glob
 import os
+import boto3
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
@@ -13,6 +14,19 @@ from .models import *
 # Create your views here.
 
 # view for home page
+
+def spacetounderscore(inputurl):
+    url = str(inputurl)
+    return url.replace(' ', '_')
+
+
+def s3download(request):
+    s3 = boto3.client('s3')
+    s3.download_file('studysmartbucket',
+                     'media/q.png', 'studysmartdownload.png')
+    return redirect("home")
+
+
 def homeview(request):
 
     if request.method == "POST":
@@ -45,18 +59,22 @@ def product_filter(request):
 
 
 def product_delete(request, id):
-    Product.objects.get(id=id).delete()
-    return redirect('website:filter')
+    if request.user.is_superuser:
+        Product.objects.get(id=id).delete()
+        return redirect('website:filter')
+    else:
+        return HttpResponse("you are not allowed to access this url")
 
 
 def product_approve(request, id):
+    if request.user.is_superuser:
+        item = Product.objects.get(id=id)
+        item.isapproved = "True"
+        item.save()
+        return redirect('website:filter')
 
-    item = Product.objects.get(id=id)
-    print(item.isapproved)
-    item.isapproved = "True"
-    item.save()
-    print(item.isapproved)
-    return redirect('website:filter')
+    else:
+        return HttpResponse("you are not allowed to access this url")
 
 
 # display all product to sell
@@ -86,15 +104,15 @@ def simple_upload(request):
             # imagesrc=uploaded_file.url
         )
 
-        url = str(product.uploaded_file.url)
-        url = url.replace('%20', '_')
-        print("url=", url, "\n\n\n")
-        product.imagesrc = url
+        # url = str(product.uploaded_file.url)
+        # url = url.replace('%20', '_')
+        # print("url=", url, "\n\n\n")
+        product.imagesrc = spacetounderscore(product.uploaded_file.url)
         product.save()
-        print("\n\n\n" + str(product.imagesrc) + "\n\n\n")
+        # print("\n\n\n" + str(product.imagesrc) + "\n\n\n")
         # product = Product.objects.get(pk=)
         # product.save()
-        return redirect('buysell')
+        return redirect('home')
     else:
         return render(request, "templates/upload.html", {})
 
@@ -142,6 +160,44 @@ def contact_view(request):
     return render(request, 'templates/Contact.html', {})
 
 # set all the links from google drive
+
+
+def admin_upload_view(request):
+    if request.user.is_superuser:
+        url = ""
+        if request.method == 'POST':
+            file = request.FILES['file']
+            filename = request.POST.get('filename')
+            subject = request.POST.get('subject', None)
+            download_type = request.POST.get('type', None)
+            linkname = spacetounderscore(file.name)
+            # url = "https://studysmartbucket.s3.amazonaws.com/pdf/{}/{}".format(
+            #     download_type, linkname)
+            url = "https://studysmartbucket.s3.us-east-2.amazonaws.com/media/{}".format(
+                linkname)
+            # print(subject_names.objects.get(name=subject))
+            download_object = download(
+                name=filename,
+                url=url,
+                subject=subject_names.objects.get(name=subject),
+                category=download_type,
+                uploaded_file=file
+            )
+            # url = str(download_object.uplo.url)
+            # url = url.replace('%20', '_')
+            # print("url=", url, "\n\n\n")
+            # product.imagesrc = url
+            # download_object.url=
+            download_object.save()
+            print("download url:"+url)
+
+        context = {
+            'url': url,
+            "subject_list": subject_names.objects.all()
+        }
+        return render(request, 'templates/adminupload.html', context)
+    else:
+        return HttpResponse("you are not allowed to access this url")
 
 
 # def setcontent_view(request):

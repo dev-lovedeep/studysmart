@@ -59,10 +59,11 @@ choice = (
 
 class download(models.Model):
     name = models.CharField(max_length=80)
-    url = models.CharField(max_length=80)
+    url = models.CharField(max_length=120)
     subject = models.ForeignKey(subject_names, on_delete=models.CASCADE)
     category = models.CharField(
         max_length=80, choices=choice, default="books and notes")
+    uploaded_file = models.FileField(default="test")
 
     def __str__(self):
         return self.name
