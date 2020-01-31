@@ -6,7 +6,7 @@ from django.db import models
 
 class Notice(models.Model):
     name = models.CharField(max_length=80)
-    src = models.URLField()
+    src = models.CharField(max_length=120)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -15,7 +15,7 @@ class Notice(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=60)
-    src = models.URLField()
+    src = models.CharField(max_length=120)
 
     def __str__(self):
         return self.name
