@@ -20,11 +20,11 @@ def spacetounderscore(inputurl):
     return url.replace(' ', '_')
 
 
-def s3download(request):
-    s3 = boto3.client('s3')
-    s3.download_file('studysmartbucket',
-                     'media/q.png', 'studysmartdownload.png')
-    return redirect("home")
+# def s3download(request):
+#     s3 = boto3.client('s3')
+#     s3.download_file('studysmartbucket',
+#                      'media/q.png', 'studysmartdownload.png')
+#     return redirect("home")
 
 
 def homeview(request):
