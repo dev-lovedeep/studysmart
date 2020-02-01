@@ -1,10 +1,12 @@
 import glob
 import os
 import boto3
+import magic
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import *
+from .forms import *
 
 # drive
 # from pydrive.auth import GoogleAuth
@@ -15,9 +17,16 @@ from .models import *
 
 # view for home page
 
+# check for mimetype
+def file_path_mime(file_path):
+    mime = magic.from_file(file_path, mime=True)
+    return mime
+
+
 def spacetounderscore(inputurl):
     url = str(inputurl)
-    return url.replace(' ', '_')
+    url = url.replace(' ', '_')
+    return "https://studysmartbucket.s3.amazonaws.com/media/{}".format(url)
 
 
 # def s3download(request):
@@ -55,7 +64,7 @@ def product_filter(request):
         }
         return render(request, 'templates/filter.html', context)
     else:
-        return HttpResponse("you are not allowed to access this url")
+        return HttpResponse("you are not allowed to access this url\n<a href='../admin' target='_blank'>login as admin</a>")
 
 
 def product_delete(request, id):
@@ -63,7 +72,7 @@ def product_delete(request, id):
         Product.objects.get(id=id).delete()
         return redirect('website:filter')
     else:
-        return HttpResponse("you are not allowed to access this url")
+        return HttpResponse("you are not allowed to access this url\n<a href='../admin' target='_blank'>login as admin</a>")
 
 
 def product_approve(request, id):
@@ -74,7 +83,7 @@ def product_approve(request, id):
         return redirect('website:filter')
 
     else:
-        return HttpResponse("you are not allowed to access this url")
+        return HttpResponse("you are not allowed to access this url\n<a href='../admin' target='_blank'>login as admin</a>")
 
 
 # display all product to sell
@@ -89,32 +98,42 @@ def productview(request):
 # manage upload product
 
 
-def simple_upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        # fs = FileSystemStorage()
-        # filename = fs.save(myfile.name, myfile)
-        # uploaded_file_url = fs.url(filename)
-        product = Product(
-            itemname=request.POST.get('itemname'),
-            price=request.POST.get('price'),
-            sellername=request.POST.get('sellername'),
-            contact=request.POST.get('contact'),
-            uploaded_file=myfile
-            # imagesrc=uploaded_file.url
-        )
+# def simple_upload(request):
+#     if request.method == 'POST' and request.FILES['myfile']:
+#         myfile = request.FILES['myfile']
+#         # print(file_path_mime(os.path.realpath(myfile.name)))
+#         product = Product(
+#             itemname=request.POST.get('itemname'),
+#             price=request.POST.get('price'),
+#             sellername=request.POST.get('sellername'),
+#             contact=request.POST.get('contact'),
+#             uploaded_file=myfile
+#         )
+#         print(product.uploaded_file.url)
+#         product.imagesrc = spacetounderscore(product.uploaded_file.url)
+#         product.save()
+#         return redirect('home')
+#     else:
+#         return render(request, "templates/upload.html", {})
 
-        # url = str(product.uploaded_file.url)
-        # url = url.replace('%20', '_')
-        # print("url=", url, "\n\n\n")
-        product.imagesrc = spacetounderscore(product.uploaded_file.url)
-        product.save()
-        # print("\n\n\n" + str(product.imagesrc) + "\n\n\n")
-        # product = Product.objects.get(pk=)
-        # product.save()
-        return redirect('home')
-    else:
-        return render(request, "templates/upload.html", {})
+def product_upload_view(request):
+    newproduct = product_upload_form()
+    if request.method == "POST":
+        newproduct = product_upload_form(request.POST, request.FILES)
+        if newproduct.is_valid():
+            notsaved = newproduct.save(commit=False)
+            imageurl = spacetounderscore(
+                newproduct.cleaned_data.get("uploaded_file"))
+            print(imageurl)
+            notsaved.imagesrc = imageurl
+            # print("url source:"newproduct.imagesrc)
+            notsaved.save()
+            newproduct = product_upload_form()
+    context = {
+        "form": newproduct
+    }
+    return render(request, "templates/upload.html", context)
+
 
 # supply item to set on both paper and books page
 
@@ -164,40 +183,55 @@ def contact_view(request):
 
 def admin_upload_view(request):
     if request.user.is_superuser:
-        url = ""
+        pdfurl = ""
+        newupload = admin_upload_form()
         if request.method == 'POST':
-            file = request.FILES['file']
-            filename = request.POST.get('filename')
-            subject = request.POST.get('subject', None)
-            download_type = request.POST.get('type', None)
-            linkname = spacetounderscore(file.name)
-            # url = "https://studysmartbucket.s3.amazonaws.com/pdf/{}/{}".format(
-            #     download_type, linkname)
-            url = "https://studysmartbucket.s3.us-east-2.amazonaws.com/media/{}".format(
-                linkname)
-            # print(subject_names.objects.get(name=subject))
-            download_object = download(
-                name=filename,
-                url=url,
-                subject=subject_names.objects.get(name=subject),
-                category=download_type,
-                uploaded_file=file
-            )
-            # url = str(download_object.uplo.url)
-            # url = url.replace('%20', '_')
-            # print("url=", url, "\n\n\n")
-            # product.imagesrc = url
-            # download_object.url=
-            download_object.save()
-            print("download url:"+url)
+            # file = request.FILES['file']
+            # filename = request.POST.get('filename')
+            # subject = request.POST.get('subject', None)
+            # download_type = request.POST.get('type', None)
+            # linkname = spacetounderscore(file.name)
+            # # url = "https://studysmartbucket.s3.amazonaws.com/pdf/{}/{}".format(
+            # #     download_type, linkname)
+            # url = "https://studysmartbucket.s3.us-east-2.amazonaws.com/media/{}".format(
+            #     linkname)
+            # # print(subject_names.objects.get(name=subject))
+            # download_object = download(
+            #     name=filename,
+            #     url=url,
+            #     subject=subject_names.objects.get(name=subject),
+            #     category=download_type,
+            #     uploaded_file=file
+            # )
 
+            # # url = str(download_object.uplo.url)
+            # # url = url.replace('%20', '_')
+            # # print("url=", url, "\n\n\n")
+            # # product.imagesrc = url
+            # # download_object.url=
+            # if request.POST.is_valid():
+            #     download_object.save()
+            #     print("download url:"+url)
+            # else:
+            #     raise forms.ValidationError("wrong input")
+            newupload = admin_upload_form(request.POST, request.FILES)
+            if newupload.is_valid():
+                notsaved = newupload.save(commit=False)
+                pdfurl = spacetounderscore(
+                    newupload.cleaned_data.get("uploaded_file"))
+                print(pdfurl)
+                notsaved.url = pdfurl
+                # print("url source:"newproduct.imagesrc)
+                notsaved.save()
+                newupload = admin_upload_form()
         context = {
-            'url': url,
-            "subject_list": subject_names.objects.all()
+            "form": newupload,
+            "subject_list": subject_names.objects.all(),
+            "url": pdfurl
         }
         return render(request, 'templates/adminupload.html', context)
     else:
-        return HttpResponse("you are not allowed to access this url")
+        return HttpResponse("you are not allowed to access this url\n<a href='../admin' target='_blank'>login as admin</a>")
 
 
 # def setcontent_view(request):

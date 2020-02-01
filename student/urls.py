@@ -15,19 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from website.views import homeview, download_view, productview, simple_upload, subject_view, contact_view
+from website.views import homeview, download_view, productview, subject_view, contact_view, product_upload_view
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
 
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin"),
     path('', homeview, name="home"),
     # i have done this to hide main url of set
     path('action/', include("website.urls", namespace="action")),
     path('buy', productview, name="buysell"),
-    path('upload', simple_upload, name="upload"),
+    path('upload', product_upload_view, name="upload"),
+    # path('upload', simple_upload, name="upload"),
     path('books', subject_view, name="books"),
     path('paper', subject_view, name="paper"),
     path('contact', contact_view, name="contact"),

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
@@ -37,7 +37,7 @@ class Product(models.Model):
     sellername = models.CharField(max_length=20)
     contact = models.BigIntegerField()
     isapproved = models.BooleanField(default=False)
-    uploaded_file = models.FileField()
+    uploaded_file = models.FileField(blank=True)
 
     def __str__(self):
         return self.itemname
@@ -45,7 +45,6 @@ class Product(models.Model):
 
 class subject_names(models.Model):
     name = models.CharField(max_length=80)
-    driveid = models.TextField()
 
     def __str__(self):
         return self.name
@@ -63,7 +62,8 @@ class download(models.Model):
     subject = models.ForeignKey(subject_names, on_delete=models.CASCADE)
     category = models.CharField(
         max_length=80, choices=choice, default="books and notes")
-    uploaded_file = models.FileField(default="test")
+    uploaded_file = models.FileField(default="test", validators=[
+                                     FileExtensionValidator(allowed_extensions=['pdf'])])
 
     def __str__(self):
         return self.name

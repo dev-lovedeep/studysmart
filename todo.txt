@@ -1,0 +1,5 @@
+todo:manage form error before submission []
+todo:phone no validation check for 10 digit not working issue[x]
+todo:check proper extension type while submitting[x]
+todo:make some filesize validation[x]
+todo:links containing bracket and % sign get broken[]
