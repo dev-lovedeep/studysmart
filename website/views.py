@@ -1,7 +1,6 @@
 import glob
 import os
 import boto3
-import magic
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
