@@ -1,5 +1,5 @@
 from django import forms
-from .models import download, Product
+from .models import download, Product, subject_names, choice
 
 
 class admin_upload_form(forms.ModelForm):
@@ -7,6 +7,31 @@ class admin_upload_form(forms.ModelForm):
         model = download
         fields = '__all__'
         exclude = ['url']
+
+    name = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            "class": "w100"
+        }
+    ))
+
+    category = forms.CharField(required=True, widget=forms.Select(
+        attrs={
+            "class": "w100"
+        }, choices=choice
+    ))
+
+    subject = forms.CharField(required=True, widget=forms.Select(
+        attrs={
+            "class": "w100"
+        },
+        choices=[(x, x) for x in subject_names.objects.all()]
+    ))
+    uploaded_file = forms.FileField(required=True, widget=forms.FileInput(
+        attrs={
+            "class": "w100",
+            "accept": "application/pdf"
+        }
+    ))
     # for checking proper file format
 
     def clean_uploaded_file(self):
@@ -28,6 +53,7 @@ class product_upload_form(forms.ModelForm):
         if 'lovedeep' in itemname:
             raise forms.ValidationError("cannot use admin name")
         return itemname
+
     # check for contact to be 10 digit no
 
     def clean_contact(self):
@@ -44,3 +70,37 @@ class product_upload_form(forms.ModelForm):
         if myfile.size > 5242880:  # 5mb
             raise forms.ValidationError("file size should be less than 5MB")
         return myfile
+
+    # overriding field
+    price = forms.DecimalField(required=True, widget=forms.NumberInput(
+        attrs={
+            "class": "full",
+            "min": "0"
+        }
+    ))
+    contact = forms.IntegerField(required=True, widget=forms.NumberInput(
+        attrs={
+            "class": "full",
+            "minlength": "10",
+            "maxlength": "10",
+            "type": "tel"
+        }
+    ))
+
+    sellername = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            "class": "full"
+        }
+    ))
+
+    itemname = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            "class": "full"
+        }
+    ))
+    uploaded_file = forms.FileField(required=True, widget=forms.FileInput(
+        attrs={
+            "class": "full",
+            "accept": "image/*"
+        }
+    ))

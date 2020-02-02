@@ -9,23 +9,35 @@
 
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <!-- <label for="itemname">product name:</label><br>
-        <input type="text" name="itemname" id="" class="full" required> <br>
+        <label for="itemname">product name:</label><br>
+        <!-- <input type="text" name="itemname" id="" class="full" required> -->
+        {{form.itemname.errors}}
+        {{form.itemname}}
+        <br>
         <div class="flex">
             <div class="price half">
                 <label for="price">price:</label><br>
-                <input type="number" name="price" id="" min="0" class="full" required><br>
+                <!-- <input type="number" name="price" id="" min="0" class="full" required> -->
+                {{form.price}}
+                <br>
             </div>
             <div class="image half">
                 <label for="myfile">upload image:</label><br>
-                <input type="file" name="myfile" class="full" required><br>
+                <!-- <input type="file" name="myfile" class="full" required> -->
+                {{form.uploaded_file.errors}}
+                {{form.uploaded_file}}
+                <br>
             </div>
         </div>
         <label for="sellername">sellername:</label><br>
-        <input type="text" name="sellername" id="full" class="full" required><br>
+        <!-- <input type="text" name="sellername" id="full" class="full" required> -->
+        {{form.sellername}}
+        <br>
         <label for="contact">contact:</label><br>
-        <input pattern="[1-9]{1}[0-9]{9}" type="number" name='contact' /> -->
-        {{form.as_p}}
+        <!-- <input pattern="[1-9]{1}[0-9]{9}" type="number" name='contact' />  -->
+        {{form.contact.errors}}
+        {{form.contact}}
+
         <button type="submit" onclick="submitForm()" class="upload">Upload</button>
     </form>
 </div>

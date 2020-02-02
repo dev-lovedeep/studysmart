@@ -8,39 +8,45 @@
     <h1 class="title">upload file</h1>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <!-- <div class="entity">
+        <div class="entity">
             <label for="file">choose file</label>
-            <input type="file" name="file" id="">
+            <!-- <input type="file" name="file" id=""> -->
+            {{form.uploaded_file}}
+            {{form.uploaded_file.errors}}
         </div>
         <br>
         <div class="entity">
             <label for="filename">filename:</label>
-            <input type="text" name="filename" id="" class="w100">
+            <!-- <input type="text" name="filename" id="" class="w100"> -->
+            {{form.name}}
         </div>
         <br>
         <div class="row entity">
             <div class="entity w50">
                 <label for="subject">subject:</label>
                 <br>
-                <select name="subject" id="" class="w100">
+                <!-- <select name="subject" id="" class="w100">
+                    
                      
 
                     {% for subject in subject_list %}
                     <option value="{{subject}}">{{subject}}</option>
                     {% endfor %}
-                </select>
+                </select> -->
+                {{form.subject}}
             </div>
             <div class="entity w50">
                 <label for="type">type:</label>
                 <br>
-                <select name="type" id="" class="w100">
+                <!-- <select name="type" id="" class="w100">
                     <option value="books and notes">books and notes</option>
                     <option value="paper">paper</option>
-                </select>
+                </select> -->
+                {{form.category}}
             </div>
         </div>
-        <br> -->
-        {{form.as_p}}
+        <br>
+        <!-- {{form.name.as_p}} -->
         <p class="url entity">{{url}}</p>
         <button type="submit" value="upload">upload</button>
     </form>
