@@ -214,6 +214,7 @@ def admin_upload_view(request):
             # else:
             #     raise forms.ValidationError("wrong input")
             newupload = admin_upload_form(request.POST, request.FILES)
+            print(newupload)
             if newupload.is_valid():
                 notsaved = newupload.save(commit=False)
                 pdfurl = spacetounderscore(

@@ -6,7 +6,8 @@ from django.core.validators import FileExtensionValidator
 
 class Notice(models.Model):
     name = models.CharField(max_length=80)
-    src = models.CharField(max_length=120,default="https://studysmartbucket.s3.amazonaws.com/media/")
+    src = models.CharField(
+        max_length=120, default="https://studysmartbucket.s3.amazonaws.com/media/")
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -15,7 +16,8 @@ class Notice(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=60)
-    src = models.CharField(max_length=120,default="https://studysmartbucket.s3.amazonaws.com/media/")
+    src = models.CharField(
+        max_length=120, default="https://studysmartbucket.s3.amazonaws.com/media/")
 
     def __str__(self):
         return self.name
@@ -45,6 +47,7 @@ class Product(models.Model):
 
 class subject_names(models.Model):
     name = models.CharField(max_length=80)
+    
 
     def __str__(self):
         return self.name
