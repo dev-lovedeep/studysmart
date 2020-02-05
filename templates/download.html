@@ -7,6 +7,7 @@
         <p class="heading">{{object.0.subject}}</p>
         <!-- <a href="#" class="upload-btn btn" download>upload</a> -->
     </div>
+    {% if object %}
     {% for instance in object %}
     <div class="item flex">
         <p class="item-name">{{instance.name}}</p>
@@ -16,6 +17,8 @@
         </a>
     </div>
     {% endfor %}
-
+    {% else %}
+    <p class="nothing-text">nothing added yet checkout other subjects</p>
+    {% endif %}
 </div>
 {%endblock %}
