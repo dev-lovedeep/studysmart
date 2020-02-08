@@ -47,7 +47,6 @@ class Product(models.Model):
 
 class subject_names(models.Model):
     name = models.CharField(max_length=80)
-    
 
     def __str__(self):
         return self.name
@@ -60,7 +59,7 @@ choice = (
 
 
 class download(models.Model):
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=120)
     url = models.CharField(max_length=120)
     subject = models.ForeignKey(subject_names, on_delete=models.CASCADE)
     category = models.CharField(
