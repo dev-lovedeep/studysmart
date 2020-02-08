@@ -83,8 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         "NAME": 'studysmart',
-        "PGUSER": 'root',
-        "PGPASSWORD": 'testpass18',
+        "USER": 'devel',
+        "PASSWORD": 'dblogin18',
         "HOST": 'localhost',
         "PORT": '',
     }
