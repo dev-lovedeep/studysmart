@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0)qekbr#7dbpe_(**%au$l%oim$i@#ii&i8h-jvn90a)69jx$c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['svbh.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',  # from python package
     'website',
+    'whitenoise.runserver_nostatic'
 ]
 
 MIDDLEWARE = [
@@ -79,8 +81,12 @@ WSGI_APPLICATION = 'student.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        "NAME": 'studysmart',
+        "PGUSER": 'root',
+        "PGPASSWORD": 'testpass18',
+        "HOST": 'localhost',
+        "PORT": '',
     }
 }
 
