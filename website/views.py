@@ -17,9 +17,9 @@ from .forms import *
 # view for home page
 
 # check for mimetype
-def file_path_mime(file_path):
-    mime = magic.from_file(file_path, mime=True)
-    return mime
+# def file_path_mime(file_path):
+#     mime = magic.from_file(file_path, mime=True)
+#     return mime
 
 
 def spacetounderscore(inputurl):
