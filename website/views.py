@@ -119,7 +119,9 @@ def product_upload_view(request):
     newproduct = product_upload_form()
     if request.method == "POST":
         newproduct = product_upload_form(request.POST, request.FILES)
+
         if newproduct.is_valid():
+
             notsaved = newproduct.save(commit=False)
             imageurl = spacetounderscore(
                 newproduct.cleaned_data.get("uploaded_file"))

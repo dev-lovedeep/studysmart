@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0)qekbr#7dbpe_(**%au$l%oim$i@#ii&i8h-jvn90a)69jx$c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['svbh.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -90,6 +90,9 @@ DATABASES = {
     }
 }
 
+# postgres
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
