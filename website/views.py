@@ -22,10 +22,10 @@ from .forms import *
 #     return mime
 
 
-def spacetounderscore(inputurl):
+def spacetounderscore(inputurl, filetype):
     url = str(inputurl)
     url = url.replace(' ', '_')
-    return "https://studysmartbucket.s3.amazonaws.com/media/images/{}".format(url)
+    return "https://studysmartbucket.s3.amazonaws.com/media/{}/{}".format(filetype, url)
 
 
 # def s3download(request):
@@ -124,7 +124,7 @@ def product_upload_view(request):
 
             notsaved = newproduct.save(commit=False)
             imageurl = spacetounderscore(
-                newproduct.cleaned_data.get("uploaded_file"))
+                newproduct.cleaned_data.get("uploaded_file"), "images")
             print(imageurl)
             notsaved.imagesrc = imageurl
             # print("url source:"newproduct.imagesrc)
@@ -221,7 +221,7 @@ def admin_upload_view(request):
             if newupload.is_valid():
                 notsaved = newupload.save(commit=False)
                 pdfurl = spacetounderscore(
-                    newupload.cleaned_data.get("uploaded_file"))
+                    newupload.cleaned_data.get("uploaded_file"), "pdf")
                 print(pdfurl)
                 notsaved.url = pdfurl
                 # print("url source:"newproduct.imagesrc)
