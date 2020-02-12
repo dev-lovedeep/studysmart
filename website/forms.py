@@ -36,8 +36,9 @@ class admin_upload_form(forms.ModelForm):
 
     def clean_uploaded_file(self):
         myfile = self.cleaned_data.get("uploaded_file")
-        if not str(myfile).endswith((".pdf")):
-            raise forms.ValidationError("invalid format! only pdf allowed")
+        if not str(myfile).endswith((".pdf", ".zip")):
+            raise forms.ValidationError(
+                "invalid format! only pdf  and zip allowed")
         return myfile
 
 
@@ -65,7 +66,7 @@ class product_upload_form(forms.ModelForm):
 
     def clean_uploaded_file(self):
         myfile = self.cleaned_data.get("uploaded_file")
-        if not str(myfile).endswith((".png", '.jpeg', '.jpg', '.zip')):
+        if not str(myfile).endswith((".png", '.jpeg', '.jpg')):
             raise forms.ValidationError("invalid file format")
         if myfile.size > 5242880:  # 5mb
             raise forms.ValidationError("file size should be less than 5MB")
