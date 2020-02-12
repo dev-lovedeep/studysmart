@@ -25,7 +25,7 @@ from .forms import *
 def spacetounderscore(inputurl):
     url = str(inputurl)
     url = url.replace(' ', '_')
-    return "https://studysmartbucket.s3.amazonaws.com/media/{}".format(url)
+    return "https://studysmartbucket.s3.amazonaws.com/media/images/{}".format(url)
 
 
 # def s3download(request):
@@ -130,6 +130,7 @@ def product_upload_view(request):
             # print("url source:"newproduct.imagesrc)
             notsaved.save()
             newproduct = product_upload_form()
+            return redirect('home')
     context = {
         "form": newproduct
     }

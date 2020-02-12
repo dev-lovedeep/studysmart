@@ -1,7 +1,7 @@
 {% extends 'templates/base.html' %}
 {% load static %}
 {% block page %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'static/css/style.css' %}">
 <div class=" container">
     <div class="card">
         <p class="heading heading-lg">notice</p>
@@ -50,15 +50,17 @@
     <div class="card">
         <p class="heading">recently added</p>
         <div class="card-content horizontal">
-            <link rel="stylesheet" href="{% static 'css/style-product.css' %}">
+            <link rel="stylesheet" href="{% static 'static/css/style-product.css' %}">
             {% for instance in products reversed %}
             {% include 'templates/item.html' %}
             {% endfor %}
+            {% if products|length > 3 %}
             <a href="{% url 'buysell' %}">
                 <div class="product view-more">
                     <p>view <br> more</p>
                 </div>
             </a>
+            {% endif %}
 
 
         </div>

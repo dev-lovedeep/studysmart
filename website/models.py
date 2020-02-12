@@ -39,7 +39,7 @@ class Product(models.Model):
     sellername = models.CharField(max_length=20)
     contact = models.BigIntegerField()
     isapproved = models.BooleanField(default=False)
-    uploaded_file = models.FileField(blank=True)
+    uploaded_file = models.FileField(upload_to="images")
 
     def __str__(self):
         return self.itemname
@@ -64,8 +64,8 @@ class download(models.Model):
     subject = models.ForeignKey(subject_names, on_delete=models.CASCADE)
     category = models.CharField(
         max_length=80, choices=choice, default="books and notes")
-    uploaded_file = models.FileField(default="test", validators=[
-                                     FileExtensionValidator(allowed_extensions=['pdf'])])
+    uploaded_file = models.FileField(upload_to="pdf", default="test", validators=[
+                                     FileExtensionValidator(allowed_extensions=['pdf', 'zip'])])
 
     def __str__(self):
         return self.name

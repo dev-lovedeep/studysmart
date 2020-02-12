@@ -8,7 +8,7 @@
         <a href="{%url 'buysell' %}" class="sell-btn btn">product page</a>
     </div>
     <div class="marketplace">
-        <link rel="stylesheet" href="{% static 'css/style-product.css' %}">
+        <link rel="stylesheet" href="{% static 'static/css/style-product.css' %}">
         {% for instance in products reversed %}
         <div class="item product">
             <img src="{{instance.imagesrc}}" alt="product image">
