@@ -141,12 +141,11 @@ def product_upload_view(request):
 
 
 def download_view(request, name):
+    subject_name = subject_names.objects.get(name=name)
     if ("books" in request.path):
         download_type = "books and notes"
     else:
         download_type = "paper"
-
-    subject_name = subject_names.objects.get(name=name)
 
     object_list = download.objects.filter(
         subject=subject_name, category=download_type)
@@ -162,15 +161,18 @@ def download_view(request, name):
 
 def subject_view(request):
     name = ""
+    obj = ""
     if ("books" in request.path):
         name = "books and notes"
+        obj = subject_names.objects.all()
     if ("paper" in request.path):
         name = "previous year paper"
+        obj = subject_names.objects.filter(haspaper=True)
 
     context = {
         "pageurl": request.path,
         "pagename": name,
-        "objects": subject_names.objects.all()
+        "objects": obj
     }
     return render(request, "templates/subject.html", context)
 
