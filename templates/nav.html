@@ -14,6 +14,9 @@
     <p class="logo center-hv">study <br> smart</p>
 
 </nav>
+<div class="nav-overlay">
+</div>
+
 <div class="navbar" id="nav">
     <a href="{%url 'home' %}" class="nav-link">home</a>
     <a href="{%url 'books' %}" class="nav-link">books and notes</a>
@@ -21,9 +24,17 @@
     <a href="{% url 'paper' %}" class="nav-link">previous year paper</a>
     <a href="{% url 'contact' %}" class="nav-link">contact us</a>
 </div>
+
 <script>
     function openNav() {
 
         document.getElementById("nav").classList.toggle("openclose")
+        document.querySelector(".nav-overlay").classList.toggle("openclose")
+        if (document.querySelector("body").style.overflow == "hidden")
+            document.querySelector("body").style.overflow = "auto"
+        else
+            document.querySelector("body").style.overflow = "hidden"
+
+        // document.querySelector("body").overflow = "hidden"
     }
 </script>

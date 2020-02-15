@@ -47,6 +47,7 @@ class Product(models.Model):
 
 class subject_names(models.Model):
     name = models.CharField(max_length=80)
+    haspaper = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -62,6 +63,7 @@ class download(models.Model):
     name = models.CharField(max_length=120)
     url = models.CharField(max_length=120)
     subject = models.ForeignKey(subject_names, on_delete=models.CASCADE)
+
     category = models.CharField(
         max_length=80, choices=choice, default="books and notes")
     uploaded_file = models.FileField(upload_to="pdf", default="test", validators=[

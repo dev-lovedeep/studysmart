@@ -69,7 +69,20 @@ nav {
 
 .openclose {
     /* width: 250px; */
+    display: flex !important;
     transform: translateX(0%);
+}
+
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0em;
+    right: 0;
+    left: 0;
+    display: none;
+    z-index: 1;
+    background-color: #333;
+    opacity: 0.3;
 }
 
 
