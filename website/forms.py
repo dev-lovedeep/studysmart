@@ -44,12 +44,12 @@ class admin_upload_form(forms.ModelForm):
 # this is going to be a raw form
 
 
-class notice_upload_form(forms.Form):
-    # class Meta:
-    #     model = Notice
-    #     fields = '__all__'
-    #     exclude = ['src']
+class notice_upload_form(forms.ModelForm):
 
+    class Meta:
+        model = Notice
+        fields = '__all__'
+        exclude = ['src']
     name = forms.CharField(required=True, widget=forms.TextInput(
         attrs={
             "class": "w100"
@@ -86,6 +86,14 @@ class notice_upload_form(forms.Form):
             raise forms.ValidationError(
                 "invalid format! only pdf allowed")
         return myfile
+
+
+class activity_upload_form(forms.ModelForm):
+
+    class Meta:
+        model = Activity
+        fields = '__all__'
+        exclude = ['src']
 
 
 class product_upload_form(forms.ModelForm):

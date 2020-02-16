@@ -8,6 +8,8 @@ class Notice(models.Model):
     name = models.CharField(max_length=80)
     src = models.CharField(
         max_length=120, default="#")
+    uploaded_file = models.FileField(default="test", upload_to="notice", validators=[
+                                     FileExtensionValidator(allowed_extensions=['pdf'])])
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -18,6 +20,8 @@ class Activity(models.Model):
     name = models.CharField(max_length=60)
     src = models.CharField(
         max_length=120, default="https://studysmartbucket.s3.amazonaws.com/media/")
+    uploaded_file = models.FileField(default="test", upload_to="notice", validators=[
+                                     FileExtensionValidator(allowed_extensions=['pdf'])])
 
     def __str__(self):
         return self.name

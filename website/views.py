@@ -243,33 +243,43 @@ def admin_upload_view(request):
 def notice_upload_view(request):
     if request.user.is_superuser:
         pdfurl = ""
+        type = request.POST.get('category')
+        # print(request.POST)
+        # noticemodelname = type
+        # # notice_upload_form().Meta().model = type
+        # # notice_upload_form().Meta().model = modelname
+        # print(notice_upload_form().Meta().model)
+        # print(noticemodelname)
+        # print(notice_upload_form().Meta().model)
         newnotice = notice_upload_form()
         if request.method == 'POST':
-            type = request.POST.get('category')
-            print(request.POST)
-            # if type == "notice":
-            newnotice = notice_upload_form(request.POST, request.FILES)
-            print(newnotice)
+
+            if type == "Notice":
+                newnotice = notice_upload_form(request.POST, request.FILES)
+
+            if type == "Activity":
+                newnotice = activity_upload_form(request.POST, request.FILES)
+            # print(newnotice)
             if newnotice.is_valid():
-                # notsaved = newnotice.save(commit=False)
+                notsaved = newnotice.save(commit=False)
                 filename = newnotice.cleaned_data.get("uploaded_file")
                 if not filename:
                     pdfurl = "#"
                 else:
                     pdfurl = spacetounderscore(
-                        filename, "pdf")
+                        filename, "notice")
                 print(pdfurl)
-                # notsaved.src = pdfurl
+                notsaved.src = pdfurl
                 # newnotice.src = pdfurl
                 # print("url source:"newproduct.imagesrc)
-                # notsaved.save()
-                if type == "Notice":
-                    Notice.objects.create(
-                        name=newnotice.cleaned_data.get('name'), src=pdfurl)
-                if type == "Activity":
-                    Activity.objects.create(
-                        name=newnotice.cleaned_data.get('name'), src=pdfurl)
-                newnotice = notice_upload_form()
+                notsaved.save()
+                # if type == "Notice":
+                #     Notice.objects.create(
+                #         name=newnotice.cleaned_data.get('name'), src=pdfurl)
+                # if type == "Activity":
+                #     Activity.objects.create(
+                #         name=newnotice.cleaned_data.get('name'), src=pdfurl)
+                # newnotice = notice_upload_form()
         context = {
             # "noticeform": newnotice,
             # "url": pdfurl
