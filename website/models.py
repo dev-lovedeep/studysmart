@@ -7,7 +7,7 @@ from django.core.validators import FileExtensionValidator
 class Notice(models.Model):
     name = models.CharField(max_length=80)
     src = models.CharField(
-        max_length=120, default="https://studysmartbucket.s3.amazonaws.com/media/")
+        max_length=120, default="#")
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):

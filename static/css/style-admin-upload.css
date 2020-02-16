@@ -11,17 +11,18 @@
     margin-bottom: 1em;
 }
 
+/* todo :upload this file to aws */
 .container {
 
     width: 95%;
     max-width: 700px;
-    margin: 0 auto;
+    margin: 2em auto;
     background-color: #4AD0C7;
     padding: 2em;
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
 }
 
 

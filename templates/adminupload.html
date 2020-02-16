@@ -11,14 +11,14 @@
         <div class="entity">
             <label for="file">choose file</label>
             <!-- <input type="file" name="file" id=""> -->
-            {{form.uploaded_file}}
-            {{form.uploaded_file.errors}}
+            {{fileuploadform.uploaded_file}}
+            {{fileuploadform.uploaded_file.errors}}
         </div>
         <br>
         <div class="entity">
             <label for="filename">filename:</label>
             <!-- <input type="text" name="filename" id="" class="w100"> -->
-            {{form.name}}
+            {{fileuploadform.name}}
         </div>
         <br>
         <div class="row entity">
@@ -33,7 +33,7 @@
                     <option value="{{subject}}">{{subject}}</option>
                     {% endfor %}
                 </select> -->
-                {{form.subject}}
+                {{fileuploadform.subject}}
             </div>
             <div class="entity w50">
                 <label for="type">type:</label>
@@ -42,8 +42,58 @@
                     <option value="books and notes">books and notes</option>
                     <option value="paper">paper</option>
                 </select> -->
-                {{form.category}}
+                {{fileuploadform.category}}
             </div>
+        </div>
+        <br>
+        <!-- {{form.name.as_p}} -->
+        <p class="url entity">{{url}}</p>
+        <button type="submit" value="upload">upload</button>
+    </form>
+</div>
+
+
+<!-- form for uploading notice and activity -->
+<div class="container">
+    <h1 class="title">upload notice and activity</h1>
+    <form action="upload/notice" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="entity">
+            <label for="file">choose file</label>
+            <!-- <input type="file" name="file" id=""> -->
+            {{noticeform.uploaded_file}}
+            {{noticeform.uploaded_file.errors}}
+        </div>
+        <br>
+        <div class="entity">
+            <label for="filename">filename:</label>
+            <!-- <input type="text" name="filename" id="" class="w100"> -->
+            {{noticeform.name}}
+        </div>
+        <br>
+        <div class=" entity">
+            <!-- <div class="entity w50">
+                <label for="subject">subject:</label>
+                <br>
+                <select name="subject" id="" class="w100">
+                    
+                     
+
+                    {% for subject in subject_list %}
+                    <option value="{{subject}}">{{subject}}</option>
+                    {% endfor %}
+                </select> 
+                {{noticeform.subject}}
+            </div> -->
+            <!-- <div class="entity w50"> -->
+            <label for="type">type:</label>
+            <br>
+            <!-- <select name="type" id="" class="w100">
+                    <option value="books and notes">books and notes</option>
+                    <option value="paper">paper</option>
+                </select> -->
+            {{noticeform.category}}
+            <!-- </div> -->
         </div>
         <br>
         <!-- {{form.name.as_p}} -->

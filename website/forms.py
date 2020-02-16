@@ -1,5 +1,5 @@
 from django import forms
-from .models import download, Product, subject_names, choice
+from .models import download, Product, subject_names, choice, Notice, Activity
 
 
 class admin_upload_form(forms.ModelForm):
@@ -39,6 +39,52 @@ class admin_upload_form(forms.ModelForm):
         if not str(myfile).endswith((".pdf", ".zip")):
             raise forms.ValidationError(
                 "invalid format! only pdf  and zip allowed")
+        return myfile
+
+# this is going to be a raw form
+
+
+class notice_upload_form(forms.Form):
+    # class Meta:
+    #     model = Notice
+    #     fields = '__all__'
+    #     exclude = ['src']
+
+    name = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            "class": "w100"
+        }
+    ))
+
+    category = forms.CharField(required=True, widget=forms.Select(
+        attrs={
+            "class": "w100"
+        }, choices=(
+            ('Notice', 'Notice'),
+            ('Activity', 'Activity')
+        )
+    ))
+
+    # subject = forms.ModelChoiceField(
+    #     queryset=subject_names.objects.all(),
+    #     empty_label="select subject",
+    #     widget=forms.Select(attrs={'class': 'w100'})
+    # )
+
+    uploaded_file = forms.FileField(required=False, widget=forms.FileInput(
+        attrs={
+            "class": "w100",
+            "accept": "application/pdf"
+        }
+    ))
+    # for checking proper file format
+
+    def clean_uploaded_file(self):
+        myfile = self.cleaned_data.get("uploaded_file")
+
+        if not str(myfile).endswith((".pdf")) and not str(myfile) == 'None':
+            raise forms.ValidationError(
+                "invalid format! only pdf allowed")
         return myfile
 
 
